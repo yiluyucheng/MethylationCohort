@@ -84,13 +84,16 @@ def grid_base(group_list, integer_list) -> Grid:
         Bar()
         .add_xaxis(dx)
         .add_yaxis("", dy, category_gap=1, itemstyle_opts=opts.ItemStyleOpts(color='#f07167'))
-        #.set_global_opts(title_opts=opts.TitleOpts(title="Grid-Bar"))
+        .set_global_opts(
+            #title_opts=opts.TitleOpts(title="Sex composition"), 
+            xaxis_opts=opts.AxisOpts(name='Chronological Age (years)', name_location='middle', name_gap=30),
+            yaxis_opts=opts.AxisOpts(name='Counts', name_location='middle', name_gap=40))
         .set_series_opts(label_opts=opts.LabelOpts(is_show=False))
     )
 
     pie = (
         Pie()
-        .add("", group_list, center=["25%", "50%"])
+        .add("", group_list, center=["20%", "50%"])
         .set_colors(["blue", "green", "yellow", "red", "pink", "orange", "purple"])
         .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
         .set_global_opts(
@@ -101,7 +104,7 @@ def grid_base(group_list, integer_list) -> Grid:
     
     c = (
         Grid()
-        .add(bar, grid_opts=opts.GridOpts(pos_left="55%"))
+        .add(bar, grid_opts=opts.GridOpts(pos_left="50%"))
         .add(pie, grid_opts=opts.GridOpts(pos_top="30%", pos_right="75%"))
         .dump_options_with_quotes()
     )

@@ -10,14 +10,16 @@
 <body>
 <h3>Cohort information</h3>
 <h3> ID: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ GSE.ids }}">{{ GSE.ids }}</a> </h3>
-<h3> Samples: {{ GSE.count }} </h3>
-<h3> Annotation: {{ GSE.annotation }} </h3>
+<p> Samples: {{ GSE.count }} </p>
+<p> Annotation: {{ GSE.annotation }} </p>
+<p> Array: {{ GSE.array }} </p>
+<p> Uniqueness: {{ GSE.note }} </p>
 
 <h4 align="right">
     <a href={% url 'Cohorts' %}>Homepage</a>
 </h4>
  
-<div id="bar" style="width:1200px; height:300px;"></div>
+<div id="bar" style="width:900px; height:300px;"></div>
 
 <script>
     var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});

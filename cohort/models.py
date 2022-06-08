@@ -8,6 +8,7 @@ class cohort(models.Model):
     tissue = models.CharField(max_length=256, verbose_name='Tissue')
     annotation = models.CharField(max_length=256, verbose_name='Annotation')
     array = models.CharField(max_length=20, verbose_name='Array')
+    note = models.CharField(max_length=256, verbose_name='Note')
 
     def __str__(self):
         return "{}-{}-{}".format(self.id, self.sample, self.array)
