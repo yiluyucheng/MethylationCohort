@@ -25,7 +25,7 @@
      {% for gsm in page_obj %}
         <tr>
             <td>
-                <a href="http://127.0.0.1:8888/charts/index/?gse={{ gsm.ids }}"  target="_blank">
+                <a href="{% url 'single_cohort' %}?gse={{ gsm.ids }}"  target="_blank">
                     {{ gsm.ids }}
                 </a>
             </td>
