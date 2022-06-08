@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+</head>
+<body>
+<h3>Cohort information</h3>
+<h3> ID: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ GSE.ids }}">{{ GSE.ids }}</a> </h3>
+<h3> Samples: {{ GSE.count }} </h3>
+<h3> Annotation: {{ GSE.annotation }} </h3>
+
+<h4 align="right">
+    <a href={% url 'Cohorts' %}>Homepage</a>
+</h4>
+ 
+<div id="bar" style="width:1200px; height:300px;"></div>
+
+<script>
+    var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+
+    $(
+        function () {
+            fetchData(chart);
+        }
+    );
+    
+    var new_url = "{% url 'chart_info' %}" + "?gse=" + "{{ GSE.ids }}"
+    function fetchData() {
+        $.ajax({
+            type: "GET",
+            url: new_url,
+            dataType: 'json',
+            success: function (result) {
+                chart.setOption(result.data);
+            }
+        });
+    }
+</script>
+
+</body>
+
+
+</html>

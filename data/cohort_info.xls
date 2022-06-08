@@ -1,0 +1,4 @@
+ID	Samples	Tissues	Attributes	Cohort	Array	Note
+GSE55763	2711	Peripheral blood	Age;Sex	London Life Sciences Prospective Population (LOLIPOP) study	450k	NA
+GSE56046	1202	CD14+ cell	Age;Sex	Multi-Ethnic Study of Atherosclerosis	450k	Transcriptomics and methylomics of human monocytes
+GSE105018	1658	Whole blood	Age;Sex	Environmental Risk (E-Risk) Longitudinal Twin Study	450k 	twins, all aged at 18.

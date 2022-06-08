@@ -1,0 +1,93 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h4 align="right">
+    <a>Homepage</a>
+</h4>
+
+
+
+{% if page_obj %}
+<h3>Cohorts list</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sample</th>
+            <th>Tissue</th>
+            <th>Annotation</th>
+            <th>Array</th>
+        </tr>
+    </thead>
+    <tbody>
+     {% for gsm in page_obj %}
+        <tr>
+            <td>
+                <a href="http://127.0.0.1:8888/charts/index/?gse={{ gsm.ids }}"  target="_blank">
+                    {{ gsm.ids }}
+                </a>
+            </td>
+            <td>
+            {{ gsm.count }}
+            </td>
+            <td>
+            {{ gsm.tissue }}
+            </td>
+            <td>
+             {{ gsm.annotation }}
+            </td>
+            <td>
+             {{ gsm.array }}
+            </td>
+     {% endfor %}
+        </tr>
+    </tbody>            
+   
+</table>
+
+{% else %}
+{# 注释: 这里可以换成自己的对象 #}
+    <p>No results available.</p>
+
+{% endif %}
+
+
+{# 注释: 下面代码实现分页 #}
+{% if is_paginated %}
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{{ searchs }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="page-item active">
+                    <span class="page-link"> {{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?{{ searchs }}&page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{{ searchs }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+        {% endif %}
+    </ul>
+
+{% endif %}
+
+{% endblock %}
