@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h4 align="right">
+    <a href={% url 'Cohorts' %}>Homepage</a>
+</h4>
+
+<h3>Delete the cohorts with ID as:</h3>
+<form method="POST" class="form-horizontal" role='form' action="{% url 'delete_cohort' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+   <div class="form-group">
+       <div class="col-md-12">
+        <button type="submit" class="btn btn-primary form-control">Confirm Delete!</button>
+       </div>
+   </div>
+</form>
+
+{% endblock %}

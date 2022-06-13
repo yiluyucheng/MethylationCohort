@@ -32,6 +32,7 @@ def main():
                 new_item.annotation = d['Attributes']
                 new_item.array = d['Array']
                 new_item.note = d['Note']
+                new_item.project = d['Cohort']
                 new_item.save()
 
 

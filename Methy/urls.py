@@ -21,6 +21,8 @@ from django.urls import include, re_path
 
 urlpatterns = [
     path('', views.homeview, name='Cohorts'),
+    re_path(r'^add/$', views.add_cohort, name='add_cohort'),
+    re_path(r'^delete/$', views.delete_cohort, name='delete_cohort'),
     path('admin/', admin.site.urls),
     re_path(r'charts/', include('cohort.urls')),
 ]

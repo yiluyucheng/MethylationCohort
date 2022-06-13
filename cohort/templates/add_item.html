@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h4 align="right">
+    <a href={% url 'Cohorts' %}>Homepage</a>
+</h4>
+
+<h3>Add the following cohort</h3>
+<form method="POST" class="form-horizontal" role='form' action="{% url 'add_cohort' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+   <div class="form-group">
+       <div class="col-md-12">
+        <button type="submit" class="btn btn-primary form-control">Confirm Add!</button>
+       </div>
+   </div>
+</form>
+
+{% endblock %}

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Awesome-pyecharts</title>
+    <title>Cohort Info</title>
     <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
 
@@ -10,6 +10,7 @@
 <body>
 <h3>Cohort information</h3>
 <h3> ID: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={{ GSE.ids }}">{{ GSE.ids }}</a> </h3>
+<p> Project: {{ GSE.project }} </p>
 <p> Samples: {{ GSE.count }} </p>
 <p> Annotation: {{ GSE.annotation }} </p>
 <p> Array: {{ GSE.array }} </p>

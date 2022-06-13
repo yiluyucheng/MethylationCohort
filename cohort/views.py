@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from django.core.paginator import Paginator
 
@@ -12,21 +12,23 @@ import json
 from rest_framework.views import APIView
 from pyecharts.globals import CurrentConfig
 CurrentConfig.GLOBAL_ENV = Environment(loader=FileSystemLoader("./cohort/templates"))
+
+from .forms import *
  
 
-def homeview(request, glist=None, searchs=None):
-    # display table and seperate pages
+def homeview(request, glist=None):
+    # display table and seperate pages    
     if glist is None:
         cohort_list = cohort.objects.all().order_by('-count')
     else:
         cohort_list = glist
     if cohort_list:
-        paginator = Paginator(cohort_list, 5)
+        paginator = Paginator(cohort_list, 10)
         page = request.GET.get('page')
         page_obj = paginator.get_page(page)
         return render(request, 'home.html',
                       {'page_obj': page_obj, 'paginator': paginator,
-                       'is_paginated': True, })
+                       'is_paginated': True,})
     else:
         return render(request, 'home.html')
    
@@ -41,8 +43,41 @@ def density_count(d_list, bin=5):
     dy = list(d_all.values())
     return dx, dy
 
-   
-   
+
+def add_cohort(request):
+    form = CohortForm()
+    if request.method == 'POST':
+        """get filter keys"""
+        d_keys = {}
+        if form.is_valid():
+            for k in form.fields.keys():
+                d_keys[k] = form.cleaned_data.POST.get(k)
+        else:
+            for k in form.fields.keys():
+                d_keys[k] = request.POST[k]
+        cohort.objects.create(ids=d_keys['ids'], array=d_keys['array'], annotation=d_keys['annotation'], 
+            count=d_keys['count'], tissue=d_keys['tissue'], note=d_keys['note'], project=d_keys['project'])    
+        return HttpResponseRedirect('/')
+    return render(request, 'add_item.html', {'form': form,})
+    
+
+def delete_cohort(request):
+    form = DelForm()
+    if request.method == 'POST':
+        """get filter keys"""
+        d_keys = {}
+        if form.is_valid():
+            for k in form.fields.keys():
+                d_keys[k] = form.cleaned_data.POST.get(k)
+        else:
+            for k in form.fields.keys():
+                d_keys[k] = request.POST[k]
+        for record in cohort.objects.all().filter(ids=d_keys['ids']):
+            record.delete()  
+        return HttpResponseRedirect('/')
+    return render(request, 'delete_item.html', {'form': form,})    
+    
+  
 ###################################    
 def response_as_json(data):
     json_str = json.dumps(data)
@@ -115,7 +150,7 @@ class ChartView(APIView):
     def get(self, request, *args, **kwargs):
         #gse = 'GSE55763'
         gse = request.GET['gse']
-        s_list = GsmInfo.objects.filter(series__contains=gse)
+        s_list = GsmInfo.objects.filter(series=gse)
         group_list = list(Counter(s_list.values_list('gender', flat=True)).items())
         integer_list = s_list.values_list('age', flat=True)
         return JsonResponse(json.loads(grid_base(group_list, integer_list)))
@@ -125,6 +160,6 @@ class IndexView(APIView):
     def get(self, request, *args, **kwargs):
         gse = request.GET['gse']
         #gse = 'GSE55763'
-        glist = cohort.objects.filter(ids__contains=gse)[0]
+        glist = cohort.objects.filter(ids=gse)[0]
         return render(request, 'index_bar.html', {'GSE': glist, })        
                 

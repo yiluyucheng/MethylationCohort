@@ -9,9 +9,10 @@ class cohort(models.Model):
     annotation = models.CharField(max_length=256, verbose_name='Annotation')
     array = models.CharField(max_length=20, verbose_name='Array')
     note = models.CharField(max_length=256, verbose_name='Note')
+    project = models.CharField(max_length=256, verbose_name='Project')
 
     def __str__(self):
-        return "{}-{}-{}".format(self.id, self.sample, self.array)
+        return "{}-{}-{}".format(self.ids, self.count, self.array)
 
     class Meta:
         verbose_name = 'Cohorts'
